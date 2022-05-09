@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+h1,
+h2,
+h3 {
+    @apply font-bold;
+}
+
+h1 {
+    @apply mb-6 text-2xl;
+}
+
+h2 {
+    @apply text-xl;
+}
+
+h3 {
+    @apply text-lg;
+}
+
+table {
+    @apply w-full mt-4;
+}
+
+thead {
+    @apply text-lg font-bold;
+}
+
+tr {
+    &:nth-of-type(even) {
+        td {
+            @apply bg-gray-100;
+        }
+    }
+}
+
+td {
+    @apply p-2 px-4 border border-gray-100;
+
+    a {
+        &:hover {
+            @apply text-primary;
+        }
+    }
+}
