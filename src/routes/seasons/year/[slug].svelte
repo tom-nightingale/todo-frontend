@@ -1,6 +1,6 @@
 <script context="module">
-    import { Client } from '../..//gql/client';
-    import { GET_DRIVERS_BY_YEAR, GET_CONSTRUCTORS_BY_YEAR, GET_SCHEDULE_BY_YEAR } from '../..//gql/queries';
+    import { Client } from '../../../gql/client';
+    import { GET_DRIVERS_BY_YEAR, GET_CONSTRUCTORS_BY_YEAR, GET_SCHEDULE_BY_YEAR } from '../../../gql/queries';
 
     export async function load({ params }) {
         const year = Number(params.slug);
@@ -20,7 +20,7 @@
         }
     }
 
-    import DetailLayout from '../../components/DetailLayout/index.svelte';
+    import SeasonLayout from '../../../components/SeasonLayout/index.svelte';
 </script>
 
 <script lang="ts">
@@ -62,7 +62,6 @@
     });
 
     schedule.forEach((item:any, index:number) => {
-        // console.log(item);
         let d = new Date(item.date);
         let niceDate = d.toUTCString();
         let raceDate = niceDate.replace("00:00:00 GMT", '');
@@ -90,24 +89,12 @@
     <title>F1 {year} Season</title>
 </svelte:head>
 
-<DetailLayout
+<SeasonLayout
     title={`F1 ${year} Season`}
     driverStandingHeading="Driver Results"
     driverStandings={driverResultsSorted}
     teamStandingHeading="Constructor Results"
     teamStandings={teamResultsSorted}
+    schedule={scheduleResults}
+    year={year}
 />
-
-<div class="p-4">
-<h2>F1 {year} Schedule:</h2>
-<div class="grid grid-cols-6">
-    {#each scheduleResults as circuit, id (circuit.id)}
-    <div class="p-4">
-            <h3><a sveltekit:prefetch href={`/circuits/${circuit.id}`}>{id + 1}. {circuit.raceName}</a></h3>
-            <p>{circuit.circuitName}</p>
-            <p>{circuit.raceDate} ({circuit.raceTime})</p>
-            
-        </div>
-    {/each}
-</div>
-</div>

@@ -97,18 +97,6 @@
     driverStandings={driverResultsSorted}
     teamStandingHeading="Constructor Results"
     teamStandings={teamResultsSorted}
+    schedule={scheduleResults}
+    year={year}
 />
-
-<div class="p-4">
-<h2>F1 {year} Schedule:</h2>
-<div class="grid grid-cols-6">
-    {#each scheduleResults as circuit, id (circuit.id)}
-    <div class="p-4">
-            <h3><a sveltekit:prefetch href={`/circuits/${circuit.id}`}>{id + 1}. {circuit.raceName}</a></h3>
-            <p>{circuit.circuitName}</p>
-            <p>{circuit.raceDate} ({circuit.raceTime})</p>
-            
-        </div>
-    {/each}
-</div>
-</div>

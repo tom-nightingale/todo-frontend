@@ -3,20 +3,13 @@
 </script>
 
 <header>
-    <nav class="text-white bg-primary">
+    <nav class="text-white bg-gradient-to-tr from-primary to-primary-light">
         <ul class="flex justify-center w-full">
             <li><a sveltekit:prefetch class="inline-block p-2 mx-2" href="/">Home</a></li>
             <li><a sveltekit:prefetch class="inline-block p-2 mx-2" href="/drivers">Drivers</a></li>
             <li><a sveltekit:prefetch class="inline-block p-2 mx-2" href="/constructors">Constructors</a></li>
             <li><a sveltekit:prefetch class="inline-block p-2 mx-2" href="/circuits">Circuits</a></li>
             <li><a sveltekit:prefetch class="inline-block p-2 mx-2" href="/seasons">Seasons</a></li>
-            <li><a sveltekit:prefetch class="inline-block p-2 mx-2" href="/">Results</a></li>
-            <li><a sveltekit:prefetch class="inline-block p-2 mx-2" href="/">Qualifying</a></li>
-            <li><a sveltekit:prefetch class="inline-block p-2 mx-2" href="/">Schedules</a></li>
-            <li><a sveltekit:prefetch class="inline-block p-2 mx-2" href="/">Standings</a></li>
-            <li><a sveltekit:prefetch class="inline-block p-2 mx-2" href="/">Finishing Status</a></li>
-            <li><a sveltekit:prefetch class="inline-block p-2 mx-2" href="/">Lap Times</a></li>
-            <li><a sveltekit:prefetch class="inline-block p-2 mx-2" href="/">Pit Stops</a></li>
         </ul>
     </nav>
 </header>
