@@ -44,7 +44,6 @@
     });
 </script>
 
-<h2>F1 {year} Drivers:</h2>
 <div class="grid grid-cols-4 gap-4">
     {#each items as item, id (item.id)}
         <div class="p-4">

@@ -126,8 +126,18 @@ export const GET_DRIVERS_BY_YEAR = gql`
 	}
 `;
 
+export const GET_DRIVER_YEARS = gql`
+	query GetDriverYears($year: Int!) {
+		drivers(year: $year) {
+			driverId
+		}
+	}
+`;
+
+
+
 export const GET_DRIVER_BY_ID = gql `
-	query GetDriverById($driverId: String!) {
+	query GetDriverById($driverId: String!, $year: Int!) {
 		driver(driverId: $driverId) {
 			driverId
 			code
@@ -136,9 +146,47 @@ export const GET_DRIVER_BY_ID = gql `
 			familyName
 			dateOfBirth
 			nationality
+			getConstructor (year: $year) {
+				constructorId
+				name
+			}
 		}
 	}
 `
 
 /* Results */
 
+export const GET_RESULTS_BY_YEAR_ROUND = gql `
+	query GetResultsByYearRound($year: Int!, $round: Int!) {
+		results(year:$year, round: $round) {
+			race {
+				season
+				round
+				raceName
+				date
+				time
+				Circuit {
+					circuitId,
+					circuitName
+				}
+			}
+			results {
+				number
+				position
+				points
+				grid
+				laps
+				status
+				Driver {
+					driverId,
+					givenName
+					familyName
+					getConstructor(year: $year) {
+						name
+						constructorId
+					}
+				}
+			}
+		}
+	}
+`

@@ -1,19 +1,32 @@
 <script lang="ts">
+    export let minYear = 2005; //Default if nothing passed to it.
+    export let text = "See information for...";
+    export let slugPrefix;
+    export let id="";
+    
+    export let season:number;
+
     let date = new Date();
     let currentYear = date.getFullYear();
-    let minYear = 2005;
+
     let years: Array<number> = [];
     for (let i = minYear; i <= currentYear; i++) {
         years = [...years, i];
     }
-    export let recordType:string;
+
+    import { goto } from '$app/navigation';
+    let selectedYear:number = season ? season : minYear;
+
+    function changeYear() {
+        goto(`${slugPrefix}/${selectedYear}/${id}`);
+    }
 </script>
 
-<div class="p-6 text-center bg-gray-100">
-    <p class="text-lg font-bold">Select year...</p>
-    <div class="flex p-4 text-sm">
-        {#each years as year}
-                <a class="inline-block px-4 py-1 mx-auto rounded-full {currentYear === year ? 'bg-primary-light text-white' : 'bg-white hover:bg-primary-light hover:text-white'}" sveltekit:prefetch href={`/${recordType}/year/${year}`}>{year}</a>
-        {/each}
-    </div>
+<div class="">
+<label class="mr-2 text-white opacity-50">{text}</label>
+<select class="px-4 py-1 rounded-full" bind:value={selectedYear} on:change={changeYear}>
+    {#each years as year}
+        <option selected={year === season} value={year}>{year}</option>
+    {/each}
+</select>
 </div>

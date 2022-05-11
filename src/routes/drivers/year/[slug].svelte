@@ -17,20 +17,11 @@
 </script>
 
 <script lang="ts">
-    export let drivers:Array<any>;
+    import type { Driver } from '../../../gql/types';
+    export let drivers:Array<Driver>;
     export let year:number;
 
-    // Sort the results to display the table
-    let resultsArray:Array<any> = [];
-    drivers.forEach((item:any, index:number) => {
-        resultsArray[index] = {
-            name: `${item.givenName} ${item.familyName}`,
-            points: item.standing.points,
-            wins: item.standing.wins
-        };
-    });
-
-    let filteredResults = resultsArray.sort((a,b) => b.points - a.points);
+    let filteredResults = drivers.sort((a,b) => b.standing.points - a.standing.points);
     import DriversLayout from '../../../components/DriversLayout/index.svelte';
 </script>
 

@@ -1,16 +1,18 @@
 <script context="module">
     import { Client } from '../../gql/client';
-    import { GET_CIRCUITS_BY_YEAR } from '../../gql/queries';
+    import { GET_DRIVERS_BY_YEAR, GET_SCHEDULE_BY_YEAR } from '../../gql/queries';
 
     export async function load() {
         const d = new Date();
         const current = Number(d.getFullYear());
         const queryVariables = {year: current};
-        const circuits = await Client.request(GET_CIRCUITS_BY_YEAR, queryVariables);
+        const schedule = await Client.request(GET_SCHEDULE_BY_YEAR, queryVariables);
+        const drivers = await Client.request(GET_DRIVERS_BY_YEAR, queryVariables);
         
         return {
             props: {
-                circuits: circuits.circuits,
+                drivers: drivers.drivers,
+                schedule: schedule.schedule,
                 year: current,
             }
         }
@@ -18,36 +20,15 @@
 </script>
 
 <script lang="ts">
-    let date = new Date();
-    let currentYear = date.getFullYear();
-    let minYear = 2005;
-    let years: Array<number> = [];
-    for (let i = minYear; i <= currentYear; i++) {
-        years = [...years, i];
-    }
+    import type { Driver, Schedule } from '../../gql/types';
+    import CircuitLayout from '../../components/CircuitLayout/index.svelte';
 
-    export let circuits:any;
+    export let drivers:Array<Driver>;
+    export let schedule:Array<Schedule>;
     export let year:number;
+
+    let driverResults = drivers.sort((a,b) => b.standing.points - a.standing.points);
 
 </script>
 
-<div class="text-center">
-    <h3>See circuits from other years...</h3>
-    <div class="grid grid-cols-8 gap-4 text-sm">
-        {#each years as year}
-                <a class="inline-block px-4 py-1 mx-auto bg-gray-200 rounded-full font-boldhover:text-primary" sveltekit:prefetch href={`circuits/year/${year}`}>{year}</a>
-        {/each}
-    </div>
-</div>
-
-<h2>F1 {year} Circuits:</h2>
-<div class="grid grid-cols-6 gap-4">
-    {#each circuits as circuit, id (circuit.circuitId)}
-    <div class="p-4">
-            <h3><a sveltekit:prefetch href={`/circuits/${circuit.circuitId}`}>{circuit.circuitName}</a></h3>
-            <ul>
-                <li>{circuit.Location.locality} &bull; {circuit.Location.country}</li>      
-            </ul>
-        </div>
-    {/each}
-</div>
+<CircuitLayout drivers={driverResults} raceSchedule={schedule} season={year} />

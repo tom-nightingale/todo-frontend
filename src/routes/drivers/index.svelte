@@ -18,6 +18,7 @@
 </script>
 
 <script lang="ts">
+    import type { Driver } from '../../gql/types';
     let date = new Date();
     let currentYear = date.getFullYear();
     let minYear = 2005;
@@ -26,22 +27,10 @@
         years = [...years, i];
     }
 
-    export let drivers:any;
+    export let drivers:Array<Driver>;
     export let year:number;
 
-    let driverResults:Array<any> = [];
-
-    drivers.forEach((item:any, index:number) => {
-        driverResults[index] = {
-            type: "drivers",
-            id: item.driverId,
-            name: `${item.givenName} ${item.familyName}`,
-            points: item.standing.points,
-            wins: item.standing.wins
-        };
-    });
-
-    let filteredResults = driverResults.sort((a,b) => b.points - a.points);
+    let filteredResults = drivers.sort((a,b) => b.standing.points - a.standing.points);
     import DriversLayout from '../../components/DriversLayout/index.svelte';
 </script>
 

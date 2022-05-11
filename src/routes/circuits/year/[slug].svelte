@@ -1,15 +1,17 @@
 <script context="module">
     import { Client } from '../../../gql/client';
-    import { GET_CIRCUITS_BY_YEAR } from '../../../gql/queries';
+    import { GET_SCHEDULE_BY_YEAR, GET_DRIVERS_BY_YEAR } from '../../../gql/queries';
 
     export async function load({ params }) {
         const year = Number(params.slug);
         const queryVariables = {year: year};
-        const circuits = await Client.request(GET_CIRCUITS_BY_YEAR, queryVariables);
+        const schedule = await Client.request(GET_SCHEDULE_BY_YEAR, queryVariables);
+        const drivers = await Client.request(GET_DRIVERS_BY_YEAR, queryVariables);
         
         return {
             props: {
-                circuits: circuits.circuits,
+                drivers: drivers.drivers,
+                schedule: schedule.schedule,
                 year: year,
             }
         }
@@ -17,27 +19,15 @@
 </script>
 
 <script lang="ts">
-    export let circuits: any;
-    export let year: number;
+    import type { Driver, Schedule } from '../../../gql/types';
+    import CircuitLayout from '../../../components/CircuitLayout/index.svelte';
+
+    export let drivers:Array<Driver>;
+    export let schedule:Array<Schedule>;
+    export let year:number;
+
+    let driverResults = drivers.sort((a,b) => b.standing.points - a.standing.points);
+
 </script>
 
-<svelte:head>
-    <title>F1 {year} Season</title>
-</svelte:head>
-
-<h2>F1 {year} Circuits:</h2>
-<div class="grid grid-cols-6 gap-4">
-    {#each circuits as circuit, id (circuit.circuitId)}
-    <div class="p-4">
-            <h3><a sveltekit:prefetch href={`/circuits/${circuit.circuitId}`}>{circuit.circuitName}</a></h3>
-            <ul>
-                <li>{circuit.circuitId}</li>
-                <li><a href={circuit.url}>Wiki Link</a></li>
-                <li>{circuit.Location.lat}</li>      
-                <li>{circuit.Location.long}</li>      
-                <li>{circuit.Location.locality}</li>              
-                <li>{circuit.Location.country}</li>      
-            </ul>
-        </div>
-    {/each}
-</div>
+<CircuitLayout drivers={driverResults} raceSchedule={schedule} season={year} />

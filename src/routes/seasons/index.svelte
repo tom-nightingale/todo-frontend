@@ -1,6 +1,7 @@
 <script context="module">
     import { Client } from '../..//gql/client';
     import { GET_DRIVERS_BY_YEAR, GET_CONSTRUCTORS_BY_YEAR, GET_SCHEDULE_BY_YEAR } from '../..//gql/queries';
+    
 
     export async function load() {
         const d = new Date();
@@ -25,66 +26,27 @@
 </script>
 
 <script lang="ts">
-    export let drivers: any;
-    export let teams: any;
-    export let schedule: any;
+    import type {
+        Driver,
+        Constructor,
+        Schedule
+     } from '../..//gql/types';
+
+    export let drivers: Array<Driver>;
+    export let teams: Array<Constructor>;
+    export let schedule: Arrray<Schedule>;
     export let year: number;
 
     let date = new Date();
-    let currentYear = date.getFullYear();
-    let minYear = 2005;
-    let years: Array<number> = [];
+    let currentYear:number = date.getFullYear();
+    let minYear:number = 2005;
+    let years:Array<number> = [];
     for (let i = minYear; i <= currentYear; i++) {
         years = [...years, i];
     }
 
-    let driverResults:Array<any> = [];
-    let teamResults:Array<any> =[];
-    let scheduleResults:Array<any> = []; 
-
-    drivers.forEach((item:any, index:number) => {
-        driverResults[index] = {
-            type: "drivers",
-            id: item.driverId,
-            name: `${item.givenName} ${item.familyName}`,
-            points: item.standing.points,
-            wins: item.standing.wins
-        };
-    });
-
-    teams.forEach((item:any, index:number) => {
-        teamResults[index] = {
-            type: "constructors",
-            id: item.constructorId,
-            name: item.name,
-            points: item.standing.points,
-            wins: item.standing.wins
-        };
-    });
-
-    schedule.forEach((item:any, index:number) => {
-        // console.log(item);
-        let d = new Date(item.date);
-        let niceDate = d.toUTCString();
-        let raceDate = niceDate.replace("00:00:00 GMT", '');
-        
-        let time = item.time;
-        let raceTime = time.replace(":00Z","");
-        
-        
-        scheduleResults[index] = {
-            id: item.Circuit.circuitId,
-            name: item.CircuitName,
-            round: item.round,
-            raceName: item.raceName,
-            raceDate: raceDate,
-            raceTime: raceTime,
-            circuitName: item.Circuit.circuitName
-        }
-    });
-
-    let driverResultsSorted = driverResults.sort((a,b) => b.points - a.points);
-    let teamResultsSorted = teamResults.sort((a, b) => b.points - a.points);
+    let driverResultsSorted:Array<Driver> = drivers.sort((a,b) => b.standing.points - a.standing.points);
+    let teamResultsSorted:Array<Constructor> = teams.sort((a, b) => b.standing.points - a.standing.points);
 </script>
 
 <svelte:head>
@@ -97,6 +59,6 @@
     driverStandings={driverResultsSorted}
     teamStandingHeading="Constructor Results"
     teamStandings={teamResultsSorted}
-    schedule={scheduleResults}
-    year={year}
+    schedule={schedule}
+    season={year}
 />

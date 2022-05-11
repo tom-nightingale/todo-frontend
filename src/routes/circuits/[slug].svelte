@@ -16,20 +16,30 @@
 </script>
 
 <script lang="ts">
-    export let circuit: any;
+    import PageHeading from '../../components/PageHeading/index.svelte';
+    import Title from '../../components/PageHeading/Title/index.svelte';
+    import Subtitle from '../../components/PageHeading/Subtitle/index.svelte';
+    import type { Circuit } from '../../gql/types'
+    export let circuit: Circuit;
 </script>
 
 <svelte:head>
     <title>{circuit.circuitName} {circuit.Location.country} | F1 Track</title>
 </svelte:head>
 
-<h1>{circuit.circuitName}</h1>
+<PageHeading>
+    <div>
+        <Title title={` ${circuit.circuitName} `} />
+        <Subtitle subtitle={` ${circuit.Location.country} `} />
+    </div>
+</PageHeading>
+
 <ul>
-<li>{circuit.circuitId}</li>
-<li>{circuit.url}</li>
-<li>{circuit.circuitName}</li>
-<li>{circuit.Location.lat}</li>
-<li>{circuit.Location.long}</li>
-<li>{circuit.Location.locality}</li>
-<li>{circuit.Location.country}</li>
+    <li>{circuit.circuitId}</li>
+    <li>{circuit.url}</li>
+    <li>{circuit.circuitName}</li>
+    <li>{circuit.Location.lat}</li>
+    <li>{circuit.Location.long}</li>
+    <li>{circuit.Location.locality}</li>
+    <li>{circuit.Location.country}</li>
 </ul>

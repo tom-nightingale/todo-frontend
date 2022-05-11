@@ -18,30 +18,11 @@
 </script>
 
 <script lang="ts">
-    let date = new Date();
-    let currentYear = date.getFullYear();
-    let minYear = 2005;
-    let years: Array<number> = [];
-    for (let i = minYear; i <= currentYear; i++) {
-        years = [...years, i];
-    }
+    import type { Constructor } from '../../gql/types';
+    export let constructors:Array<Constructor>;
+    export let year:number;
 
-    export let constructors:any;
-    export let year:number;   
-
-    let teamResults:Array<any> = [];
-
-    constructors.forEach((item:any, index:number) => {
-        teamResults[index] = {
-            type: "constructors",
-            id: item.constructorId,
-            name: item.name,
-            points: item.standing.points,
-            wins: item.standing.wins
-        };
-    });
-
-    let filteredResults = teamResults.sort((a,b) => b.points - a.points);
+    let filteredResults = constructors.sort((a,b) => b.standing.points - a.standing.points);
     import ConstructorsLayout from '../../components/ConstructorsLayout/index.svelte';
 </script>
 
