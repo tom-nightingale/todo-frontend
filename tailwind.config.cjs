@@ -11,7 +11,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        'sans': ['Titillium Web', 'sans-serif']
+        'sans': ['Nunito', 'sans-serif']
       }
     },
   },
